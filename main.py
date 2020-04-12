@@ -36,17 +36,13 @@ class Stack:
 if __name__ == '__main__':
     key_dict = {'[': ']', '(': ')', '{': '}'}
     current_stack = Stack()
-    ad_stack = Stack()
     while True:
         current_stack.clear_buffer()
-        ad_stack.clear_buffer()
         in_string = input('Эта программа позволяет определить корректность расставленых скобок\n'
                           'Введите строку для опреледения нормализации, например ({}[](())): ')
         balance_flag = True
         for symbol_stack in list(in_string):
             if symbol_stack not in '[({})]':
-                # print('Некорректные данные')
-                # break
                 continue
             elif symbol_stack in '[({':
                 current_stack.push(symbol_stack)
