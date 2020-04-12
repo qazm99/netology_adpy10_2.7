@@ -21,9 +21,9 @@ class Stack:
     # peek - возвращает верхний элемент стека, но не удаляет его.Стек не меняется.
     def peek(self):
         if self.is_empty():
-            print('stack is empty')
+            return False
         else:
-            return self.buffer[len(self.buffer)-1]
+            return self.buffer[-1]
 
     # size - возвращает количество элементов в стеке.
     def size(self):
@@ -42,27 +42,24 @@ if __name__ == '__main__':
         ad_stack.clear_buffer()
         in_string = input('Эта программа позволяет определить корректность расставленых скобок\n'
                           'Введите строку для опреледения нормализации, например ({}[](())): ')
+        balance_flag = True
         for symbol_stack in list(in_string):
-            current_stack.push(symbol_stack)
-
-        if current_stack.is_empty():
-            print('Нет данных')
-        else:
-            while current_stack.size():
-                current_symbol_pair = key_dict.get(current_stack.peek())
-                if not current_symbol_pair:
-                    ad_stack.push(current_stack.pop())
+            if symbol_stack not in '[({})]':
+                # print('Некорректные данные')
+                # break
+                continue
+            elif symbol_stack in '[({':
+                current_stack.push(symbol_stack)
+            else:  # '})]'
+                if current_stack.is_empty() and key_dict.get(current_stack.peek()) != symbol_stack:
+                    balance_flag = False
+                    break
                 else:
-                    if ad_stack.peek() == current_symbol_pair:
-                        current_stack.pop()
-                        ad_stack.pop()
-                    else:
-                        print('Несбалансированно')
-                        break
+                    current_stack.pop()
+        if current_stack.is_empty() and balance_flag:
+            print('Сбалансировано')
+        else:
+            print('Несбалансировано')
 
-            if not current_stack.size() and not ad_stack.size():
-                print('Сбалансировано')
-        # print(ad_stack.buffer)
-        # print(current_stack.buffer)
         if not input('Попробуем еще раз?(y)').upper() == 'Y':
             break
