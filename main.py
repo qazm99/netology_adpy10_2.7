@@ -47,7 +47,7 @@ if __name__ == '__main__':
             elif symbol_stack in '[({':
                 current_stack.push(symbol_stack)
             else:  # '})]'
-                if current_stack.is_empty() and key_dict.get(current_stack.peek()) != symbol_stack:
+                if current_stack.is_empty() or key_dict.get(current_stack.peek()) != symbol_stack:
                     balance_flag = False
                     break
                 else:
